@@ -6,7 +6,7 @@ Weather station using Raspberry Pi with BME280 environmental sensor which can me
 
 This guide assumes you have already setup your Raspberry Pi by installing Raspberry Pi OS. Configuration of WuPiWeather in this guide is shown in terminal but could also be accomplished in Desktop GUI.
 
-![](../images/RaspberryPi_Model_4B.png)
+![](/images/RaspberryPi_Model_4B.png)
 
 Connect BME280 sensor to Raspberry Pi GPIO using table below as reference. The [pinout.xyz](https://pinout.xyz/# "https://pinout.xyz/#") website is a good reference to use when connecting devices to the Raspberry Pi. Place sensor away from any heat sources to improve temperature measurement accuracy .  The I2C serial bus wire harness length could be extended up to 1 meter. For more technical details about the BME280 sensor please see the datasheet here [BME280 Sensor Datasheet](https://www.bosch-sensortec.com/media/boschsensortec/downloads/product_flyer/bst-bme280-fl000.pdf "https://www.bosch-sensortec.com/media/boschsensortec/downloads/product_flyer/bst-bme280-fl000.pdf").
 
@@ -82,5 +82,3 @@ Add code block showing how to start, how to auto-start on boot.
 # Weather Data
 
 After data has been uploading to Weather Underground you will be able to view the PWS web page.
-
-![](../images/weather-data.png)
