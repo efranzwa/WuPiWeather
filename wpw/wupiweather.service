@@ -1,0 +1,13 @@
+[Unit]
+Description=WuPiWeather weather station
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/WuPiWeather/wpw/wpw.py
+Restart=on-failure
+RestartSec=60
+
+[Install]
+WantedBy=default.target
