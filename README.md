@@ -54,9 +54,10 @@ $ sudo i2cdetect -y 1
 
 # Software Configuration
 
-Note that you can install this either system wide or in a python virtual environment. This guide will show how to install and configure WuPiWeather system wide but for testing it is recommended to use a python virtual environment. 
+Note that you can install this either system wide or in a python virtual environment. This guide will show how to install and configure WuPiWeather system wide but for testing it is recommended to use a python virtual environment.  The code in this project assumes the repo is cloned into the pi user home directory.
 
 ```
+$ cd ~
 $ git clone https://github.com/efranzwa/WuPiWeather
 $ cd WuPiWeather
 $ pip install -r requirements.txt
@@ -78,7 +79,31 @@ Humidity    =  34.39 %RH
 
 # Example - Weather Station
 
-Add code block showing how to start, how to auto-start on boot.
+It is recommended to implement WuPiWeather as a systemd service.  This has several benefits.  The overall operation of the weather station will be robust as the system service can be configured to start automatically at boot as well as restarting when various issues arise.  These issues can include: WiFi connectivity problems, loss of power to the Pi, router/network issues, internet connectivity issues, etc.  Keeping the weather station running continuously without user intervention over long periods of time can be a challenge.  Another benefit is that logging is available using systemd journal.  
+
+```
+$ sudo cp ~/wpw/wupiweather.service /etc/systemd/system
+$ sudo chown root:root /etc/systemd/system/wupiweather.service
+
+# note service file assumes code is here: /home/pi/WuPiWeather/wpw/wpw.py
+# edit service file if wpw.py is located in different location
+
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable wupiweather.service
+$ sudo systemctl start wupiweather.service
+```
+
+At this point the WuPiWeather should be running.  For debugging the systemd journal should be used.  Normal startup is indicated by first three entries in the journal.  Errors/warnings found while wpw.py is running are also logged and can be very helpful when setting up and running the weather station.
+
+```
+$ journalctl -u wupiweather.service
+- Journal begins at Sun 2022-08-07 17:04:02 PDT, ends at Sat 2023-02-11 11:42:15 PST. --
+Feb 10 06:42:27 nashi systemd[1]: Started WuPiWeather weather station.
+Feb 10 06:42:30 nashi python[498]: Found station file wpw-station.conf
+Feb 10 06:42:30 nashi python[498]: Using station file wpw-station.conf
+Feb 11 11:22:24 nashi python[498]: URL error:   <urlopen error [Errno -3] Temporary failure in name resolution>
+Feb 11 11:28:24 nashi python[498]: URL error:   <urlopen error [Errno -3] Temporary failure in name resolution>
+```
 
 # Weather Data
 
