@@ -47,14 +47,16 @@ def sendDataWU(url,statid,statkey,temp,pres,humid,dewpt):
         response.close()
 
     except urllib.error.HTTPError as e:
-        #print("Server could not fulfill the request. Error code: ", e.code)
-        sleep(1)
+        print("HTTP error: ", e)
+        sleep(60)
+
     except urllib.error.URLError as e:
-        #print("Failed to reach server. Reason: ", e.reason)
-        sleep(1)
-    except:
-        #print("Unknown error")
-        sleep(1)
+        print("URL error: ", e)
+        sleep(60)
+
+    except Exception as e:
+        print("Exception: ", e)
+        sleep(60)
 
 
 def dewpoint_c(temp,relh):
@@ -110,7 +112,8 @@ def main():
         ALTITUDE      = int(config[7])
     
     else:
-        print("No station data in wpw-station.conf")
+        print("No station data in wpw-station.conf, exiting")
+        sys.exit(1)
 
     try:
 
@@ -148,14 +151,21 @@ def main():
         print("\nExiting Application\n")
         sys.exit(0)
 
-    except:
-        print("\nExiting Application with error\n")
-        sys.exit(1)
+    except Exception as e:
+        print("Exception: ", e)
+        sleep(INTERVAL)
+        #sys.exit(1)
 
 
 if __name__=="__main__":
     try:
         main()
+
     except KeyboardInterrupt:
         print("\nExiting Application\n")
         sys.exit(0)
+
+    except Exception as e:
+        print("Exception: ", e)
+        sleep(INTERVAL)
+        #sys.exit(1)
