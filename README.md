@@ -63,7 +63,7 @@ $ cd WuPiWeather
 $ pip install -r requirements.txt
 ```
 
-# Example - Sensor Readings
+# Verify Sensor
 
 Use the `verify-sensor.py` script to verify that the everything is working correctly prior to deploying the full weather station. The output should display the sensor readings, I2C bus configuration and time of reading in GMT which is needed for weather data upload.
 
@@ -77,12 +77,34 @@ Pressure    =  1002.62 hPa
 Humidity    =  34.39 %RH
 ```
 
-# Example - Weather Station
+# Weather Station Configuration
+
+Configuration of the weather station can be accomplished in two ways.  The first method is to edit wpw.py with your specific station parameters.  This is not preferred but may be necessary if installing on a device that is not a Raspberry Pi.  The second and preferred method is to copy configuration file wpw-station.conf to the /boot directory.  This allows the wpw software to be upgraded without losing the station configuration.
+
+```
+$ sudo cp ~/WuPiWeather/wpw/wpw-station.conf /boot
+```
+
+#### Station Configuration File 
+Edit wpw-station.conf with your favorite editor.  Use the PORT and ADDRESS from station verification.  INTERVAL is recommended at 300 seconds.  STATION ID and STATION_KEY will come from your registration with Weather Underground.  ALTITUDE will correct for local atmospheric pressure relative to sea level, enter this in feet. 
+
+```
+wpw				# identifies file as configuration - do not change
+1				# PORT - I2C port number for sensor
+0x76				# ADDRESS - I2C address for sensor
+300				# INTERVAL - time between sensor readings in seconds
+my-station-id	# STATION_ID - your ID for personal weather station
+my-station-key	# STATION_KEY - your key/password for station
+https://...		# WU_URL - url for data upload
+100				# ALTITUDE - altitude for pressure correction in feet
+```
+
+# Weather Station Service
 
 It is recommended to implement WuPiWeather as a systemd service.  This has several benefits.  The overall operation of the weather station will be robust as the system service can be configured to start automatically at boot as well as restarting when various issues arise.  These issues can include: WiFi connectivity problems, loss of power to the Pi, router/network issues, internet connectivity issues, etc.  Keeping the weather station running continuously without user intervention over long periods of time can be a challenge.  Another benefit is that logging is available using systemd journal.  
 
 ```
-$ sudo cp ~/wpw/wupiweather.service /etc/systemd/system
+$ sudo cp ~/WuPiWeather/wpw/wupiweather.service /etc/systemd/system
 $ sudo chown root:root /etc/systemd/system/wupiweather.service
 
 # note service file assumes code is here: /home/pi/WuPiWeather/wpw/wpw.py
@@ -109,4 +131,4 @@ Feb 11 11:28:24 nashi python[498]: URL error:   <urlopen error [Errno -3] Tempor
 
 After data has been uploading to Weather Underground you will be able to view the PWS web page.
 
-![](../images/weather-data.png)
+![](./images/weather-data.png)
