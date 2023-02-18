@@ -122,6 +122,8 @@ def main():
             # retrieve sensor data
             bus = smbus2.SMBus(PORT)
             data = bme280.sample(bus, ADDRESS)
+            sleep(1)
+            bus.close()
             temp_raw = data.temperature
             pres_raw = data.pressure
             humid_raw = data.humidity
