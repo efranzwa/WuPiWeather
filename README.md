@@ -89,14 +89,14 @@ $ sudo cp ~/WuPiWeather/wpw/wpw-station.conf /boot
 Edit wpw-station.conf with your favorite editor.  Use the PORT and ADDRESS from station verification.  INTERVAL is recommended at 300 seconds.  STATION ID and STATION_KEY will come from your registration with Weather Underground.  ALTITUDE will correct for local atmospheric pressure relative to sea level, enter this in feet. 
 
 ```
-wpw				# identifies file as configuration - do not change
-1				# PORT - I2C port number for sensor
-0x76				# ADDRESS - I2C address for sensor
-300				# INTERVAL - time between sensor readings in seconds
-my-station-id	# STATION_ID - your ID for personal weather station
-my-station-key	# STATION_KEY - your key/password for station
-https://...		# WU_URL - url for data upload
-100				# ALTITUDE - altitude for pressure correction in feet
+wpw              # identifies file as configuration - do not change
+1                # PORT - I2C port number for sensor
+0x76	             # ADDRESS - I2C address for sensor
+300              # INTERVAL - time between sensor readings in seconds
+my-station-id    # STATION_ID - your ID for personal weather station
+my-station-key   # STATION_KEY - your key/password for station
+https://...      # WU_URL - url for data upload
+100              # ALTITUDE - altitude for pressure correction in feet
 ```
 
 # Weather Station Service
@@ -129,6 +129,8 @@ Feb 11 11:28:24 nashi python[498]: URL error:   <urlopen error [Errno -3] Tempor
 
 # Weather Data
 
-After data has been uploading to Weather Underground you will be able to view the PWS web page.
+After data has been uploading to Weather Underground you will be able to view the personal weather station (PWS) web page.  Address for the PWS should be as follows using your registered station ID: https://www.wunderground.com/dashboard/pws/my-station-id.
 
-![](./images/weather-data.png)
+<img src="./images/weather-graph.png" width="500">
+
+<img src="./images/weather-table.png" width="500">
